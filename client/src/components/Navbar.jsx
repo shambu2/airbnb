@@ -39,11 +39,7 @@ const Navbar = () => {
       <div className="sm:hidden bg-slate-500">
         <input type="text" />
       </div>
-      <div className="grid">
-        icons
-      </div>
-
-      
+      <div className="grid">icons</div>
     </div>
   );
 };
