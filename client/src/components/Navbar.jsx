@@ -14,6 +14,7 @@ import {
   MenuIcon,
   UserRoundIcon,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <div className="w-[92vw] grid grid-rows-3  mx-auto ">
@@ -41,9 +42,11 @@ const Navbar = () => {
               <p>Airbnb your home</p>
               <Globe size={17} />
             </div>
-            <div className="flex items-center justify-center gap-3 border py-2 px-2  rounded-full">
+            <div className="flex items-center justify-center gap-5 border py-2 px-2  rounded-full">
               <Menu size={17} />
-              <CircleUserRound size={25} />
+              <Link to={"/login"}>
+                <CircleUserRound size={25} />
+              </Link>
             </div>
           </div>
         </div>
@@ -59,8 +62,12 @@ const Navbar = () => {
         <div className="grid grid-flow-col border  h-full rounded-full mx-auto shadow-slate-400 shadow-md">
           <div className=" h-full hover:rounded-full pt-2 my-auto text-xs pl-4 cursor-pointer hover:bg-slate-200 ">
             <p>Where</p>
-            
-            <input type="text" className="text-gray-600 font-extralight py-2 w-full outline-none bg-transparent" placeholder="Search destination" />
+
+            <input
+              type="text"
+              className="text-gray-600 font-extralight py-2 w-full outline-none bg-transparent"
+              placeholder="Search destination"
+            />
           </div>
           <div className="flex flex-col text-xs items-center justify-center border-x h-10 my-auto">
             <p>Check in</p>
@@ -87,7 +94,7 @@ const Navbar = () => {
           <p>Start your search</p>
         </div>
       </div>
-      <div className="grid">icons</div>
+      {/* <div className="grid">icons</div> */}
     </div>
   );
 };
