@@ -1,12 +1,23 @@
-import { createContext, useState } from "react";
+import axios from "axios";
+import { createContext, useEffect, useState } from "react";
+// const token = localStorage.getItem("token"); 
+export const UserContext = createContext({});
 
-const UserContext = createContext({});
-
-export function UserContextProvider({children}){
-    const [user,setUser] = useState(null)
-    return (
-        <UserContext.Provider value={{user,setUser}}>
-            {children}
-        </UserContext.Provider>
-    )
+export  function UserContextProvider({ children }) {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    // axios.get('/profile')
+    if (!user) {
+      axios.get('http://localhost:5000/profile',{
+        withCredentials: true,
+      }).then(({ data }) => {
+        setUser(data);
+      });
+    }
+  },[]);
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
 }

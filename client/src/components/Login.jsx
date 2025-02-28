@@ -1,22 +1,30 @@
-import React, { useState } from "react";
+import React, {  useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../UserContext.jsx";
+
 const Login = () => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [redirect,setRedirect] = useState(false);
+  const {setUser} = useContext(UserContext) 
   const handleLogin = async (ev) => {
+  
     ev.preventDefault();
     try {
-      await axios.post(
+      const response = await axios.post(
         "http://localhost:5000/login",
         { email, password },
         {
           headers: { "Content-Type": "application/json" },
-        }
+          withCredentials: true
+        },
+        
       );
       // alert('Login successful')
       setRedirect(true)
+      setUser(response.data)
+      
     } catch (error) {
       alert('Login failed')
     }
@@ -26,7 +34,7 @@ const Login = () => {
   }
   return (
     <div className="flex flex-col justify-center items-center w-[50vw] mx-auto h-[50vh]">
-      <form>
+      <form onSubmit={handleLogin}>
         <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
         <input
           type="email"
@@ -43,7 +51,8 @@ const Login = () => {
           className="w-full border p-2 mb-2 rounded-full"
         />
         <button
-          onClick={handleLogin}
+          
+          type="submit"
           className="w-full bg-black text-white rounded-full h-10"
         >
           submit

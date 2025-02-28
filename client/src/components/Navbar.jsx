@@ -1,26 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 // import Logo from '../assets/logo.svg'
 import {
   Globe,
   CircleUserRound,
   SendHorizontal,
-  Tally3,
-  SearchXIcon,
   Search,
   Menu,
   SearchIcon,
-  SendHorizonal,
-  GlobeIcon,
-  MenuIcon,
-  UserRoundIcon,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../UserContext";
 const Navbar = () => {
+  const {user} = useContext(UserContext)
   return (
     <div className="w-[92vw] grid grid-rows-3  mx-auto ">
       <div className="hidden md:block pt-5 pb-5  ">
         <div className=" flex justify-between items-center ">
-          <div className="flex gap-3 pt-2 hover:text-[#ff385c]">
+          <Link to={user?'/':'/'} className="flex gap-3 pt-2 hover:text-[#ff385c]">
             <SendHorizontal
               className="-rotate-90 "
               fill="black"
@@ -30,7 +26,7 @@ const Navbar = () => {
             <p className="hidden lg:block text-2xl hover:text-[#ff385c] font-semibold">
               airbnb
             </p>
-          </div>
+          </Link>
           <div className="hidden  lg:block ">
             <div className="grid grid-cols-2 items-center justify-center gap-3">
               <p className="font-semibold ">Homes</p>
@@ -44,10 +40,16 @@ const Navbar = () => {
             </div>
             <div className="flex items-center justify-center gap-5 border py-2 px-2  rounded-full">
               <Menu size={17} />
-              <Link to={"/login"}>
+              <Link to={user?'/account':'/login'}>
                 <CircleUserRound size={25} />
               </Link>
+              {!!user && (
+                <div className="max-w-20">
+                  {user.name}
+                </div>
+              )}
             </div>
+            {/* <div className="text-center flex items-center ">hi</div> */}
           </div>
         </div>
       </div>
