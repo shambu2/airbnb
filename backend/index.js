@@ -62,6 +62,9 @@ app.post("/login", async (req, res) => {
     res.status(400).json({ message: "error while logging" });
   }
 });
+app.post("/logout",async(req,res) =>{
+  res.cookie('token','').json(true);
+})
 app.get("/profile", async(req, res) => {
   const { token } = req.cookies;
   if (token) {

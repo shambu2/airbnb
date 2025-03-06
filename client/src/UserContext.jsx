@@ -5,6 +5,7 @@ export const UserContext = createContext({});
 
 export  function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [ready,setReady] = useState(false)
   useEffect(() => {
     // axios.get('/profile')
     if (!user) {
@@ -12,11 +13,12 @@ export  function UserContextProvider({ children }) {
         withCredentials: true,
       }).then(({ data }) => {
         setUser(data);
+        setReady(true)
       });
     }
   },[]);
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser,ready }}>
       {children}
     </UserContext.Provider>
   );

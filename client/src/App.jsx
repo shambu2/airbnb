@@ -8,7 +8,6 @@ import { UserContextProvider } from "./UserContext";
 import axios from "axios";
 import AccountPage from "./pages/AccountPage";
 
-
 function App() {
   return (
     <UserContextProvider>
@@ -17,12 +16,10 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-
-        </Route>  
-            <Route path="/account" element={<AccountPage />} />
-
+          <Route path="/account/:subpage?" element={<AccountPage />} />
+        </Route>
+        
       </Routes>
-
     </UserContextProvider>
   );
 }
