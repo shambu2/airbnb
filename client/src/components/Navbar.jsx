@@ -13,7 +13,7 @@ import { UserContext } from "../UserContext";
 const Navbar = () => {
   const {user} = useContext(UserContext)
   return (
-    <div className="w-[92vw] grid grid-rows-3  mx-auto ">
+    <div className="w-[92vw] grid  mx-auto ">
       <div className="hidden md:block pt-5 pb-5  ">
         <div className=" flex justify-between items-center ">
           <Link to={user?'/':'/'} className="flex gap-3 pt-2 hover:text-[#ff385c]">
@@ -90,7 +90,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className="md:hidden bg-slate-50">
+      <div className=" md:hidden bg-slate-50">
         <div className="border w-[90vw] h-16 mx-auto rounded-full flex justify-center items-center gap-4  font-semibold mt-2 shadow-md">
           <Search size={15} />
           <p>Start your search</p>

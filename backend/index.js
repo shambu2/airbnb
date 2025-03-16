@@ -1,7 +1,7 @@
 import express from "express";
 import { configDotenv } from "dotenv";
 import mongoose from "mongoose";
-import { User } from "./model.js";
+import { User } from "./models/model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
@@ -77,7 +77,8 @@ app.get("/profile", async(req, res) => {
     res.json(null);
   }
 });
-mongoose.connect(process.env.mongo_db);
+
 app.listen(process.env.PORT, () => {
-  console.log("logged");
+  mongoose.connect(process.env.mongo_db);
+  console.log('backend started ')
 });
