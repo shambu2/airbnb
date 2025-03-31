@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "../UserContext";
 import { Link, Navigate, useParams } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import Places from "./Places";
 
 const AccountPage = () => {
@@ -11,7 +11,7 @@ const AccountPage = () => {
     subpage = "profile";
   }
 
-  console.log(subpage);
+  
 
   const linkClasses = (type) =>
     `py-2 px-6 flex rounded-full transition  gap-1 ${type === subpage

@@ -15,11 +15,12 @@ const Places = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuest, setMaxGuest] = useState(1);
-  console.log(photoLink);
+  // console.log(photoLink);
+
   async function addPhotoByLink(ev) {
     ev.preventDefault();
-    // here data returned is image filename which will be added to array of addedPhotos
-    const {data} = await axios.post(
+    if(photoLink !== ""){
+       const {data} = await axios.post(
       "http://localhost:5000/upload-by-link",
       { link: photoLink },
       { headers: { "Content-Type": "application/json" } }
@@ -29,24 +30,27 @@ const Places = () => {
     })
     setPhotoLink('')
   }
-  //   console.log(title,address,photoLink,description,extraInfo,checkIn,checkOut,maxGuest)
+    }
+    // here data returned is image filename which will be added to array of addedPhotos
+   
+ 
+   function uploadPhoto(ev){
+    const files = ev.target.files;
+    const data = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      data.append('photos',files[i])
+    }
+    axios.post('http://localhost:5000/upload',data,{
+      headers:{'Content-Type':'multipart/form-data'}
+    }).then(response =>{
+      const {data:filenames} = response;
+      setAddedPhotos(prev =>{
+        return [...prev, ...filenames]
+      })
+      setPhotoLink('');
 
-  //   function inputHeader(text) {
-  //     return <h2 className="text-2xl mt-4">{text}</h2>;
-  //   }
-
-  //   function inputDescription(text) {
-  //     return <p className="text-gray-500 text-sm">{text}</p>;
-  //   }
-
-  //   function preInput(header, description) {
-  //     return (
-  //       <>
-  //         {inputHeader(header)}
-  //         {inputDescription(description)}
-  //       </>
-  //     );
-  //   }
+    })
+  }
 
   return (
     <div>
@@ -117,27 +121,16 @@ const Places = () => {
             </div>
             <div className="grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-2 ">
               {addedPhotos.length > 0 && addedPhotos.map((link => (
-                <div className="flex items-center justify-center">
-                    <img className="rounded-2xl gap-2 w-full h-fullobject-scale-down " src={'http://localhost:5000/uploads/'+link} alt="" />
+                <div className="flex ">
+                    <img className="rounded-2xl h-32 object-cover   gap-2 w-full " src={'http://localhost:5000/uploads/'+link} alt="" />
                 </div>
               )))}  
-              <button className="flex justify-center items-center gap-2 border bg-transparent rounded-2xl p-8 text-xl text-gray-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
-                  />
-                </svg>
+              <label  className="flex cursor-pointer justify-center items-center gap-2 border bg-transparent rounded-2xl p-8 text-xl text-gray-600">
+               
+                <input type="file" multiple name="" id="" className="hidden" onChange={uploadPhoto} />
                 Upload
-              </button>
+              </label>
+
             </div>
             <h2 className="text-2xl mt-4">Description</h2>
             <p className="text-gray-500 text-sm">Description of the place</p>

@@ -1,11 +1,22 @@
 import React from 'react'
 
 const Perks = ({selected,onChange}) => {
+  
+  function handleCbClick(ev){
+    const {name,checked} = ev.target;
+    if (checked) {
+      onChange([...selected,name])
+    } else {
+      onChange([...selected.filter(selectedName => selectedName !== name)])
+    }
+
+  }
+
   return (
     <div>
         <div className="mb-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
-              <label className="border flex items-center justify-center gap-2 p-4 shadow-md">
-                <input type="checkbox" name="" id="" />
+              <label className="border flex items-center justify-start pl-10 gap-2 p-4 shadow-md">
+                <input type="checkbox" name="wifi" id="" onChange={handleCbClick} />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -23,8 +34,8 @@ const Perks = ({selected,onChange}) => {
 
                 <span>Wifi</span>
               </label>
-              <label className="border flex items-center justify-center gap-2 p-4 shadow-md">
-                <input type="checkbox" name="" id="" />
+              <label className="border flex items-center justify-start pl-10 gap-2 p-4 shadow-md">
+                <input type="checkbox" name="parking" id="" onChange={handleCbClick} />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -42,8 +53,8 @@ const Perks = ({selected,onChange}) => {
 
                 <span>Free parking spot</span>
               </label>
-              <label className="border flex items-center justify-center gap-2 p-4 shadow-md">
-                <input type="checkbox" name="" id="" />
+              <label className="border flex items-center justify-start pl-10 gap-2 p-4 shadow-md">
+                <input type="checkbox" name="tv" id="" onChange={handleCbClick} />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -61,8 +72,8 @@ const Perks = ({selected,onChange}) => {
 
                 <span>Tv</span>
               </label>
-              <label className="border flex items-center justify-center gap-2 p-4 shadow-md">
-                <input type="checkbox" name="" id="" />
+              <label className="border flex items-center justify-start pl-10 gap-2 p-4 shadow-md">
+                <input type="checkbox" name="pets" id="" onChange={handleCbClick} />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -80,8 +91,8 @@ const Perks = ({selected,onChange}) => {
 
                 <span>Pets</span>
               </label>
-              <label className="border flex items-center justify-center gap-2 p-4 shadow-md">
-                <input type="checkbox" name="" id="" />
+              <label className="border flex items-center justify-start pl-10 gap-2 p-4 shadow-md">
+                <input type="checkbox" name="entrance" id="" onChange={handleCbClick} />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -99,8 +110,8 @@ const Perks = ({selected,onChange}) => {
 
                 <span>Private entrance</span>
               </label>
-              <label className="border flex items-center justify-center gap-2 p-4 shadow-md">
-                <input type="checkbox" name="" id="" />
+              <label className="border flex items-center justify-start pl-10 gap-2 p-4 shadow-md">
+                <input type="checkbox" name="radio" id="" onChange={handleCbClick} />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

@@ -9,6 +9,9 @@ import cors from "cors";
 import { image } from "image-downloader"
 import { fileURLToPath } from 'url';
 import path from 'path';
+import multer from "multer";
+import fs from "fs"
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -97,9 +100,23 @@ app.post('/upload-by-link', async (req, res) => {
   } catch (error) {
     res.json(error)
   }
+  
 
 })
-
+const photosMiddleware = multer({dest:'uploads'});
+app.post('/upload',photosMiddleware.array('photos',100),(req,res)=>{
+  const uploadFiles = [];
+  for (let i = 0; i < req.files.length; i++) {
+    const {path,originalname} = req.files[i];
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    const newPath = path + '.' + ext;
+    fs.renameSync(path,newPath)
+    uploadFiles.push(newPath.replace("uploads\\",""))
+  }
+  res.json(uploadFiles);
+})
+ 
 
 app.listen(process.env.PORT, () => {
   mongoose.connect(process.env.mongo_db);
