@@ -2,11 +2,10 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Layout from "./Layout";
-import RegisterPage from "./pages/RegisterPage";
-import LoginPage from "./pages/LoginPage";
 import { UserContextProvider } from "./UserContext";
-import axios from "axios";
 import AccountPage from "./pages/AccountPage";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
   return (
@@ -14,8 +13,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/account/:subpage?" element={<AccountPage />} />
           <Route path="/account/:subpage/:action" element={<AccountPage />} />
         </Route>
