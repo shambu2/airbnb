@@ -6,6 +6,8 @@ import { UserContextProvider } from "./UserContext";
 import AccountPage from "./pages/AccountPage";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Places from "./pages/Places";
+import NewForm from "./components/NewForm";
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/account/:subpage?" element={<AccountPage />} />
           <Route path="/account/:subpage/:action" element={<AccountPage />} />
+          <Route path="/account/places/:id" element={<NewForm/>}/>
         </Route>
         
       </Routes>

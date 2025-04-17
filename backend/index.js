@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import multer from "multer";
 import fs from "fs"
+import { placeModel } from "./models/places.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -116,6 +117,80 @@ app.post('/upload',photosMiddleware.array('photos',100),(req,res)=>{
   }
   res.json(uploadFiles);
 })
+
+app.post('/places',(req,res)=>{
+  try {
+    const {token} = req.cookies;
+    const {title,address,addedPhotos,
+    description,perks,extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests} = req.body;
+  jwt.verify(token,secret_key,{},async(err,userInfo)=>{
+    if (err) throw err;
+    const placeDoc = await placeModel.create({
+      owner:userInfo.id,
+      title,
+      address,
+      photos: addedPhotos,
+      description,
+      perks,
+      extraInfo,
+      checkIn,
+      checkOut,
+      maxGuests
+    });
+    res.json(placeDoc)
+  })
+  } catch (error) {
+    res.status(500).json({error:'Failed to save to DB'})
+  }
+  
+})
+app.get('/places',(req,res)=>{
+  // const {token} = req.cookies;
+  // const token = req.headers.authorization?.split('')[1];
+  const {token} = req.cookies;
+  if(!token){
+    return res.status(401).json('token not provided')
+  }
+  jwt.verify(token,secret_key,{},async(err,userInfo)=>{
+    // if (err) throw err;
+    const {id} = userInfo;
+    res.json(await placeModel.find({owner:id}));
+  })
+})
+
+app.get('/places/:id',async(req,res)=>{
+  const {id} = req.params;
+  const placeData = await placeModel.findById(id)
+  res.json(placeData)
+})
+
+
+app.put('/places',async (req,res) => {
+  const {token} = req.cookies;
+  const {
+    id,title,address,addedPhotos,description,
+    perks,extraInfo,checkIn,checkOut,maxGuests
+  } = req.body;
+
+  jwt.verify(token,secret_key,{},async (err,userData) => {
+    const placeDoc = await placeModel.findById(id);
+    if (userData.id === placeDoc.owner.toString()) {
+      placeDoc.set({
+        title,address,photos:addedPhotos,description,
+        perks,extraInfo,checkIn,checkOut,maxGuests,
+      });
+      await placeDoc.save();
+      res.json('ok')
+    }
+  })
+
+
+})
+
+
  
 
 app.listen(process.env.PORT, () => {
