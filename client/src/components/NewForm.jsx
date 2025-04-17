@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams,useNavigate } from "react-router-dom";
 
 import Perks from "./Perks";
 import axios from "axios";
+
+
 const NewForm = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
@@ -16,7 +19,7 @@ const NewForm = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
-  // const [redirectToPlace, setRedirectToPlace] = useState(false);
+  const [redirectToPlace, setRedirectToPlace] = useState("");
   // const [places,setPlaces] = useState('');
   async function addPhotoByLink(ev) {
     ev.preventDefault();
@@ -66,16 +69,18 @@ const NewForm = () => {
       maxGuests,
     };
 
-    if (id !== '') {
-      await axios.put("http://localhost:5000/places", {
-        id,
-        ...placedata,
-        
-      },{
-        withCredentials:true,
-      });
-      // setRedirectToPlace("/account/places");
-      // setRedirectToPlace(true)
+    if (id !== "") {
+      await axios.put(
+        "http://localhost:5000/places",
+        {
+          id,
+          ...placedata,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      navigate("/account/places");
     } else {
       const { data } = await axios.post(
         "http://localhost:5000/places",
@@ -84,7 +89,8 @@ const NewForm = () => {
           withCredentials: true,
         }
       );
-      setRedirectToPlace("/account/places");
+      navigate("/account/places");
+
 
       // console.log(data)
       setTitle("");
@@ -97,10 +103,15 @@ const NewForm = () => {
       setCheckOut("");
       setMaxGuests("");
     }
+    // if (redirectToPlace !== "") {
+    //   return <Navigate to={"/account"} />;
+    // }
+    navigate("/account/places");
   }
-  if (redirectToPlace !== "") {
-    return <Navigate to={"/account/places"} />;
-  }
+  // if (redirectToPlace !== "") {
+  //   return <Navigate to={"/account/places"} />;
+  // }
+
   useEffect(() => {
     if (!id) {
       return;
@@ -120,7 +131,6 @@ const NewForm = () => {
       setCheckOut(data.checkOut);
       setMaxGuests(data.maxGuests);
       // setRedirectToPlace(data.redirectToPlace);
-      setRedirectToPlace(true)
     });
   }, [id]);
   return (
